@@ -13,17 +13,17 @@ variable "routes" {
     destination_prefix_list_id    = optional(string)
 
     # Target (exactly one required)
-    nat_gateway_id             = optional(string)
-    transit_gateway_id         = optional(string)
-    vpc_peering_connection_id  = optional(string)
-    vpn_gateway_id             = optional(string)
-    network_interface_id       = optional(string)
-    vpc_endpoint_id            = optional(string)
-    egress_only_gateway_id     = optional(string)
-    gateway_id                 = optional(string)
-    local_gateway_id           = optional(string)
-    carrier_gateway_id         = optional(string)
-    core_network_arn           = optional(string)
+    # Note: VPN Gateway uses gateway_id (same as Internet Gateway)
+    nat_gateway_id            = optional(string)
+    transit_gateway_id        = optional(string)
+    vpc_peering_connection_id = optional(string)
+    network_interface_id      = optional(string)
+    vpc_endpoint_id           = optional(string)
+    egress_only_gateway_id    = optional(string)
+    gateway_id                = optional(string)
+    local_gateway_id          = optional(string)
+    carrier_gateway_id        = optional(string)
+    core_network_arn          = optional(string)
   }))
 
   validation {
@@ -43,7 +43,6 @@ variable "routes" {
         (v.nat_gateway_id != null ? 1 : 0) +
         (v.transit_gateway_id != null ? 1 : 0) +
         (v.vpc_peering_connection_id != null ? 1 : 0) +
-        (v.vpn_gateway_id != null ? 1 : 0) +
         (v.network_interface_id != null ? 1 : 0) +
         (v.vpc_endpoint_id != null ? 1 : 0) +
         (v.egress_only_gateway_id != null ? 1 : 0) +
@@ -53,7 +52,7 @@ variable "routes" {
         (v.core_network_arn != null ? 1 : 0)
       ) == 1
     ])
-    error_message = "Each route must specify exactly one target (nat_gateway_id, transit_gateway_id, vpc_peering_connection_id, etc.)."
+    error_message = "Each route must specify exactly one target (nat_gateway_id, transit_gateway_id, gateway_id, etc.)."
   }
 
   validation {
