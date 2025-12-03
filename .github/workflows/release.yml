@@ -1,0 +1,45 @@
+name: Release
+
+on:
+  push:
+    tags:
+      - 'v*'
+
+permissions:
+  contents: write
+
+jobs:
+  release:
+    name: Create Release
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Create GitHub Release
+        uses: softprops/action-gh-release@v2
+        with:
+          body: |
+            ## Usage
+
+            ```hcl
+            module "routes" {
+              source  = "gebalamariusz/routes/aws"
+              version = "${{ github.ref_name }}"
+
+              routes = {
+                "private-to-nat" = {
+                  route_table_id         = "rtb-xxx"
+                  destination_cidr_block = "0.0.0.0/0"
+                  nat_gateway_id         = "nat-xxx"
+                }
+              }
+            }
+            ```
+
+            ## Documentation
+
+            See [README.md](https://github.com/gebalamariusz/terraform-aws-routes/blob/${{ github.ref_name }}/README.md) for full documentation.
+          generate_release_notes: true
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
