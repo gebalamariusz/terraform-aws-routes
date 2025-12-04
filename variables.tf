@@ -8,9 +8,9 @@ variable "routes" {
     route_table_id = string
 
     # Destination (one required)
-    destination_cidr_block        = optional(string)
-    destination_ipv6_cidr_block   = optional(string)
-    destination_prefix_list_id    = optional(string)
+    destination_cidr_block      = optional(string)
+    destination_ipv6_cidr_block = optional(string)
+    destination_prefix_list_id  = optional(string)
 
     # Target (exactly one required)
     # Note: VPN Gateway uses gateway_id (same as Internet Gateway)
